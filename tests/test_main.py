@@ -39,3 +39,24 @@ def test_create_task_empty_title():
     response = client.post("/tasks/", json={"title": "   "})
     assert response.status_code == 400
     assert response.json() == {"detail": "Title cannot be empty"}
+
+def test_update_task():
+    client.post("/tasks/", json={"title": "Task 1"})
+    response = client.put("/tasks/1", json={"done": True})
+    assert response.status_code == 200
+    assert response.json() == {"id": 1, "title": "Task 1", "done": True}
+
+def test_update_task_not_found():
+    response = client.put("/tasks/999", json={"title": "Updated"})
+    assert response.status_code == 404
+
+def test_delete_task():
+    client.post("/tasks/", json={"title": "Task 1"})
+    response = client.delete("/tasks/1")
+    assert response.status_code == 204
+    # verify it's gone
+    assert client.get("/tasks/1").status_code == 404
+
+def test_delete_task_not_found():
+    response = client.delete("/tasks/999")
+    assert response.status_code == 404
