@@ -23,6 +23,8 @@ The API will be available at `http://127.0.0.1:8000`.
 ## API Documentation (Swagger UI)
 Interactive API documentation is available at `http://127.0.0.1:8000/docs`.
 
+![Swagger UI](swagger.png)
+
 ## Testing
 Run the tests using pytest:
 ```bash
