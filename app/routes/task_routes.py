@@ -33,10 +33,21 @@ def create_task(task: TaskCreate):
     """Create a new task with a title and optional 'done' status."""
     if not task.title or not task.title.strip():
         raise HTTPException(status_code=400, detail="Title cannot be empty")
-    new_id = len(tasks) + 1 if tasks else 1
-    new_task = {"id": new_id, "title": task.title.strip(), "done": task.done}
-    tasks.append(new_task)
-    return new_task
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        'INSERT INTO tasks (title, done) VALUES (?, ?)',
+        (task.title.strip(), task.done)
+    )
+    conn.commit()
+    new_id = cursor.lastrowid
+    
+    cursor.execute('SELECT * FROM tasks WHERE id = ?', (new_id,))
+    row = cursor.fetchone()
+    conn.close()
+    
+    return dict(row)
 
 @router.put("/{task_id}", response_model=TaskResponse, summary="Update an existing task")
 def update_task(task_id: int, task_update: TaskUpdate):
