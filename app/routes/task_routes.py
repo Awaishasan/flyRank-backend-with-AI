@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Response
 from typing import List
-from app.schemas.task import TaskResponse, TaskCreate, TaskUpdate
+from app.schemas.task_schema import TaskResponse, TaskCreate, TaskUpdate
 from app.data.tasks import tasks
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])

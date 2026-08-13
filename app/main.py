@@ -1,10 +1,18 @@
 from fastapi import FastAPI
-from app.routes.tasks import router as tasks_router
+from contextlib import asynccontextmanager
+from app.routes.task_routes import router as tasks_router
+from app.data.database import init_db
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
 
 app = FastAPI(
     title="Todo API",
-    description="A simple in-memory Todo API with full CRUD operations.",
-    version="1.0.0"
+    description="A simple SQLite Todo API with full CRUD operations.",
+    version="1.0.0",
+    lifespan=lifespan
 )
 app.include_router(tasks_router)
 
