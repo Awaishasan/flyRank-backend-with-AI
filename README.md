@@ -1,5 +1,18 @@
 # FastAPI CRUD API
-A simple in-memory Todo API built with FastAPI.
+A simple Todo API built with FastAPI, now refactored to use SQLite for data storage.
+
+## SQLite Database
+This project uses Python's built-in `sqlite3` library to persist tasks. The database is automatically initialized when the server starts.
+
+**Database File Location:** `app/database/tasks.db`
+
+### Database Screenshot
+![Database Screenshot Placeholder](database_screenshot_placeholder.png)
+
+### Example SQL Query
+```sql
+SELECT * FROM tasks WHERE done = 1;
+```
 
 ## Requirements
 - Python 3.9+
@@ -7,13 +20,13 @@ A simple in-memory Todo API built with FastAPI.
 - Uvicorn
 - Pytest
 
-## Setup
+## Installation Instructions
 1. Clone the repository
 2. Create a virtual environment: `python -m venv venv`
 3. Activate the virtual environment
 4. Install dependencies: `pip install -r requirements.txt`
 
-## Running the API
+## Run Instructions
 Run the server using uvicorn:
 ```bash
 uvicorn app.main:app --reload
@@ -30,4 +43,3 @@ Run the tests using pytest:
 ```bash
 pytest tests
 ```
-
