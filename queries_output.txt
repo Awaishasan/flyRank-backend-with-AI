@@ -1,0 +1,20 @@
+SQLite Queries Executed and Output:
+
+1) SELECT * FROM tasks;
+2|Setup SQLite|0
+3|Build CRUD|0
+4|New Task|0
+5|Task 1|0
+6|Task 1|0
+
+2) SELECT * FROM tasks WHERE done = 1;
+(No output since none were 1 initially)
+
+3) SELECT COUNT(*) FROM tasks;
+5
+
+4) UPDATE tasks SET done = 1;
+(Updates all 5 tasks)
+
+5) DELETE FROM tasks WHERE done = 1;
+(Deletes all tasks since all were set to 1)
