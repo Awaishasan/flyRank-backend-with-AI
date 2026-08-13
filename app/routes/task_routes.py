@@ -1,21 +1,31 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Depends
 from typing import List
 from app.schemas.task_schema import TaskResponse, TaskCreate, TaskUpdate
 from app.data.tasks import tasks
+from app.data.database import get_db_connection
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
 
 @router.get("/", response_model=List[TaskResponse], summary="Get all tasks")
 def get_tasks():
     """Retrieve a list of all tasks."""
-    return tasks
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks')
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
 
 @router.get("/{task_id}", response_model=TaskResponse, summary="Get a specific task")
 def get_task(task_id: int):
     """Retrieve a single task by its ID."""
-    for task in tasks:
-        if task["id"] == task_id:
-            return task
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM tasks WHERE id = ?', (task_id,))
+    row = cursor.fetchone()
+    conn.close()
+    if row:
+        return dict(row)
     raise HTTPException(status_code=404, detail="Task not found")
 
 @router.post("/", response_model=TaskResponse, status_code=201, summary="Create a new task")
