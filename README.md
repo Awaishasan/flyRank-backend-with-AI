@@ -43,16 +43,24 @@ Run the tests using pytest:
 ```bash
 pytest tests
 ```
-Why PostgreSQL was chosen
+# Todo API
 
-How Docker was configured
+## Technologies
 
-Where .env is stored
+- FastAPI
+- PostgreSQL
+- Docker
+- Docker Compose
 
-Where the database is stored
+## Why PostgreSQL?
 
-How persistence was tested
+SQLite se PostgreSQL par migrate kiya gaya taake production-like environment me kaam kiya ja sake.
 
-How to run:
+## Environment Variables
 
+Project configuration `.env` file me store ki gayi hai.
+
+## How to run
+
+```bash
 docker compose up
