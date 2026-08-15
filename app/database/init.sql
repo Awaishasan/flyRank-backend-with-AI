@@ -1,0 +1,9 @@
+CREATE TABLE tasks (
+
+    id INT IDENTITY(1,1) PRIMARY KEY,
+
+    title NVARCHAR(255) NOT NULL,
+
+    done BIT DEFAULT 0
+
+);
