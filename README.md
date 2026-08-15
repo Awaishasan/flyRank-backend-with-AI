@@ -43,3 +43,16 @@ Run the tests using pytest:
 ```bash
 pytest tests
 ```
+Why PostgreSQL was chosen
+
+How Docker was configured
+
+Where .env is stored
+
+Where the database is stored
+
+How persistence was tested
+
+How to run:
+
+docker compose up
