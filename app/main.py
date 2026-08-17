@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.routes.task_routes import router as tasks_router
 from app.data.database import init_db
+from app.routes.auth_router import router
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,6 +17,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 app.include_router(tasks_router)
+app.include_router(router)
 
 @app.get("/")
 def read_root():
