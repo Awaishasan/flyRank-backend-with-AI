@@ -1,35 +1,7 @@
-# from fastapi import APIRouter,HTTPException,status
-# from dotenv import load_dotenv
-# from app.schemas.auth_schema import LoginRequest, SignUpRequest
-# import os
+from fastapi import APIRouter, Depends, Response
 
-
-
-
-# load_dotenv()
-
-# SUPABASE_URL = os.getenv("SUPABASE_URL")
-# SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-
-# router = APIRouter(
-#     routes="/auth",
-#     tags=["Authentication"]
-# )
-
-
-# @router.post("/signup")
-# def signup():
-#      return {
-#         "message": "Signup successful"
-#     }
-
-# @router.post("/login")
-# def login():
-#      return {
-#         "message": "login successful"
-#     }
-
-from fastapi import APIRouter
+from app.dependencies.auth_dependency import get_current_user
+from app.database.supabase import supabase
 
 from app.schemas.auth_schema import (
     SignUpRequest,
@@ -49,7 +21,6 @@ router = APIRouter(
 
 @router.post("/signup")
 async def signup(data: SignUpRequest):
-
     return signup_service(
         data.email,
         data.password
@@ -58,8 +29,13 @@ async def signup(data: SignUpRequest):
 
 @router.post("/login")
 async def login(data: LoginRequest):
-
     return login_service(
         data.email,
         data.password
     )
+
+
+@router.post("/logout")
+def logout(current_user=Depends(get_current_user)):
+    supabase.auth.sign_out()
+    return Response(status_code=204)
